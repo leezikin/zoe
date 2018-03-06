@@ -15,10 +15,10 @@
 <body>
 <div id="app">
     <div style="margin-left: 20%;margin-right:20%;">
-        <i-input v-model="match" placeholder="输入API" clearable style="width: 100%;margin-top: 50px" @on-enter="transformToFitableJson"></i-input>
+        <i-input v-model="match" placeholder="输入API" clearable style="width: 80%;margin-left:10%;margin-top: 50px" @on-enter="transformToFitableJson"></i-input>
 
         <!--<i-input v-model="myID" v-show="next1" placeholder="输入玩家ID" clearable style="width: 200px;margin-top: 50px" @on-enter="transformToFitableJson"></i-input>-->
-        <i-select v-model="myID"  v-show="next1" clearable placeholder="选择玩家ID"  filterable style="width:200px;margin-top: 30px" @on-change="selectID">
+        <i-select v-model="myID"  v-show="next1" clearable placeholder="选择玩家ID"  filterable style="width:80%;margin-left:10%;margin-top: 30px" @on-change="selectID">
             <i-option v-for="item in res.participants" :value="item.currentAccountId" :key="item.currentAccountId">{{item.summonerName}}<span style="color: #ddd"> {{item.currentAccountId.substring(0,5)}}</span> </i-option>
         </i-select>
     </div>

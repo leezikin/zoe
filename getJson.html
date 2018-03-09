@@ -131,24 +131,7 @@
                     this.person.p4 = this.myTeam[4].currentAccountId;
 
 
-//                    console.log(JSON.stringify(this.res));
-//                    this.$Modal.confirm({
-//                        title: '下载的比赛场次为:' + this.res.gameId ,
-//                        content: '<p>是否下载由'+ this.myID + '为主角的JSON?</p>',
-//                        loading: true,
-//                        onOk: () => {
-//                            let content =  new Blob([JSON.stringify(this.res)]);
-//                            let  urlObject = window.URL || window.webkitURL || window;
-//                            let url = urlObject.createObjectURL(content);
-//                            let el = document.createElement('a');
-//                            el.href = url;
-//                            el.download =this.res.gameId +".json";
-//                            el.click();
-//                            urlObject.revokeObjectURL(url);
-//                            this.$Modal.remove();
-//                            this.$Message.info('开始下载');
-//                         }
-//                    });
+
 
 
                 }
@@ -164,8 +147,69 @@
                 this.person.p3JSON = JSON.parse(this.person.pM3.substring(this.person.pM3.indexOf('{'),this.person.pM3.lastIndexOf('}')+1));
                 this.person.p4JSON = JSON.parse(this.person.pM4.substring(this.person.pM4.indexOf('{'),this.person.pM4.lastIndexOf('}')+1));
 
-                this.res['time'] = this.person.p0JSON.msg.length;
-                console.log(this.person.p2JSON);
+                var p0Coin=[];
+                var p1Coin=[];
+                var p2Coin=[];
+                var p3Coin=[];
+                var p4Coin=[];
+                var timeList=[];
+                for(var i = 0;i<this.person.p0JSON.msg.length;i++){
+                    timeList[i] = i + '';
+                    p0Coin[i] = parseInt(this.person.p0JSON.msg[i].coin);
+                    p1Coin[i] = parseInt(this.person.p0JSON.msg[i].coin);
+                    p2Coin[i] = parseInt(this.person.p0JSON.msg[i].coin);
+                    p3Coin[i] = parseInt(this.person.p0JSON.msg[i].coin);
+                    p4Coin[i] = parseInt(this.person.p0JSON.msg[i].coin);
+                }
+                var userCoinsChart =[];
+                userCoinsChart[0] = {
+                    name:this.myTeam[0].championId,
+                    type:'line',
+                    data:p0Coin,
+                };
+                userCoinsChart[1] = {
+                    name:this.myTeam[1].championId,
+                    type:'line',
+                    data:p1Coin,
+                };
+                userCoinsChart[2] = {
+                    name:this.myTeam[2].championId,
+                    type:'line',
+                    data:p2Coin,
+                };
+                userCoinsChart[3] = {
+                    name:this.myTeam[3].championId,
+                    type:'line',
+                    data:p3Coin,
+                };
+                userCoinsChart[4] = {
+                    name:this.myTeam[4].championId,
+                    type:'line',
+                    data:p4Coin,
+                };
+
+                this.res['userCoinsChart'] = userCoinsChart;
+                this.res['timeList'] = timeList;
+
+
+                //                    console.log(JSON.stringify(this.res));
+                    this.$Modal.confirm({
+                        title: '下载的比赛场次为:' + this.res.gameId ,
+                        content: '<p>是否下载由'+ this.myID + '为主角的JSON?</p>',
+                        loading: true,
+                        onOk: () => {
+                            let content =  new Blob([JSON.stringify(this.res)]);
+                            let  urlObject = window.URL || window.webkitURL || window;
+                            let url = urlObject.createObjectURL(content);
+                            let el = document.createElement('a');
+                            el.href = url;
+                            el.download =this.res.gameId +".json";
+                            el.click();
+                            urlObject.revokeObjectURL(url);
+                            this.$Modal.remove();
+                            this.$Message.info('开始下载');
+                         }
+                    });
             }
         }
     });

@@ -166,10 +166,15 @@
                             </div>
                         </i-col>
                     </row>
-                            <div id="kills" style="margin:30px auto;width: 250px;height: 250px;">
+                    <row type="flex" justify="center"  :gutter="16">
+                        <i-col span="10" style="width: 250px;height: 250px;">
+                            <div id="kills" style="margin:30px auto;width: 250px;height: 250px;"></div>
+                        </i-col>
+                        <i-col span="24" style="width: 300px;height: 400px;">
+                            <div id="money" style="margin:30px auto;width: 280px;height: 300px;"></div>
+                        </i-col>
+                    </row>
 
-
-                    </div>
                     <p>Content of dialog</p>
                     <p>Content of dialog</p>
                 </modal>
@@ -180,7 +185,7 @@
                         <img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
                         <span @click="">@leezikin</span>
                         <div style="width: 40%;margin: auto;margin-top: 30px">
-                            本站所使用的API从网络获取。获取与使用行为或有侵犯产品权益的嫌疑。若被告知需停止使用，本人将及时删除此页面。
+                            佐伊就是全部。
                         </div>
                         <row type="flex" justify="center">
                             <i-col span="12" style="width: 200px;margin-top: 30px"><a href="https://github.com/leezikin/leezikin.github.io">GitHub</a></i-col>
@@ -307,6 +312,9 @@
             killOption:{},
             myID:'',
             myTeam:[],
+            moneyChart:null,
+            moneyOption:{},
+
 
 
         },
@@ -324,6 +332,7 @@
         mounted(){
             this.$Loading.finish();
             this.killChart = echarts.init(document.getElementById('kills'),'roma');
+            this.moneyChart = echarts.init(document.getElementById('money'),'roma');
         },
         methods: {
             menuSelect(name){
@@ -395,6 +404,71 @@
                 }
 
                 this.killChart.setOption( this.killOption);
+
+                this.moneyOption = {
+                    title: {
+                        text: '经济',
+                        x: 'center',
+
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        top: '10%',
+                        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+                    },
+                    grid: {
+                        top: '40%',
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'邮件营销',
+                            type:'line',
+                            stack: '总量',
+                            data:[120, 132, 101, 134, 90, 230, 210]
+                        },
+                        {
+                            name:'联盟广告',
+                            type:'line',
+                            stack: '总量',
+                            data:[220, 182, 191, 234, 290, 330, 310]
+                        },
+                        {
+                            name:'视频广告',
+                            type:'line',
+                            stack: '总量',
+                            data:[150, 232, 201, 154, 190, 330, 410]
+                        },
+                        {
+                            name:'直接访问',
+                            type:'line',
+                            stack: '总量',
+                            data:[320, 332, 301, 334, 390, 330, 320]
+                        },
+                        {
+                            name:'搜索引擎',
+                            type:'line',
+                            stack: '总量',
+                            data:[820, 932, 901, 934, 1290, 1330, 1320]
+                        }
+                    ]
+                };
+
+                this.moneyChart.setOption( this.moneyOption);
 
             },
 

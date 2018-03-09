@@ -18,9 +18,20 @@
         <i-input v-model="match" placeholder="输入API" clearable style="width: 80%;margin-left:10%;margin-top: 50px" @on-enter="transformToFitableJson"></i-input>
 
         <!--<i-input v-model="myID" v-show="next1" placeholder="输入玩家ID" clearable style="width: 200px;margin-top: 50px" @on-enter="transformToFitableJson"></i-input>-->
-        <i-select v-model="myID"  v-show="next1" clearable placeholder="选择玩家ID"  filterable style="width:80%;margin-left:10%;margin-top: 30px" @on-change="selectID">
+        <i-select v-model="myID"  v-show="next1" clearable placeholder="选择玩家ID"  filterable style="width:80%;margin-left:10%;margin-top: 30px;margin-bottom: 50px" @on-change="selectID">
             <i-option v-for="item in res.participants" :value="item.currentAccountId" :key="item.currentAccountId">{{item.summonerName}}<span style="color: #ddd"> {{item.currentAccountId.substring(0,5)}}</span> </i-option>
         </i-select>
+
+        <br>
+        <span style="margin-left:10%;" v-show="next2">取得userCoin</span>
+        <i-input v-model="person.pM0" :placeholder="person.p0" clearable style="width: 80%;margin-left:10%;" v-show="next2"></i-input>
+        <i-input v-model="person.pM1" :placeholder="person.p1" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
+        <i-input v-model="person.pM2" :placeholder="person.p2" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
+        <i-input v-model="person.pM3" :placeholder="person.p3" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
+        <i-input v-model="person.pM4" :placeholder="person.p4" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
+
+        <i-button v-show="next2" type="primary" @click="getJson" style="width: 30%;margin-left: 35%;margin-top: 30px">提交</i-button>
+
     </div>
 </div>
 </body>
@@ -38,8 +49,22 @@
             json:{},
             res:{},
             next1:false,
+            next2:false,
             myID:'',
-            myTeam:'',
+            myTeamID:'',
+            myTeam:{},
+            person:{
+                p0:'',pM0:'EXAMPLE----------||var userCoin={"status":0,"msg":[{"minunes":"0","coin":"500"},{"minunes":"1","coin":"500"},{"minunes":"2","coin":"578"},{"minunes":"3","coin":"910"},{"minunes":"4","coin":"1202"},{"minunes":"5","coin":"1525"},{"minunes":"6","coin":"2248"},{"minunes":"7","coin":"2726"},{"minunes":"8","coin":"3104"},{"minunes":"9","coin":"3519"},{"minunes":"10","coin":"3679"},{"minunes":"11","coin":"4019"},{"minunes":"12","coin":"4757"},{"minunes":"13","coin":"5091"},{"minunes":"14","coin":"5315"},{"minunes":"15","coin":"5788"},{"minunes":"16","coin":"6222"},{"minunes":"17","coin":"6418"},{"minunes":"18","coin":"6710"},{"minunes":"19","coin":"6924"},{"minunes":"20","coin":"7462"},{"minunes":"21","coin":"7908"},{"minunes":"22","coin":"8140"},{"minunes":"23","coin":"8292"},{"minunes":"24","coin":"9266"},{"minunes":"25","coin":"9577"},{"minunes":"26","coin":"10195"},{"minunes":"27","coin":"10317"},{"minunes":"28","coin":"10763"},{"minunes":"29","coin":"10925"},{"minunes":"30","coin":"10971"}]};',
+                p1:'',pM1:'EXAMPLE----------||var userCoin={"status":0,"msg":[{"minunes":"0","coin":"500"},{"minunes":"1","coin":"503"},{"minunes":"2","coin":"602"},{"minunes":"3","coin":"776"},{"minunes":"4","coin":"1097"},{"minunes":"5","coin":"1348"},{"minunes":"6","coin":"1675"},{"minunes":"7","coin":"1894"},{"minunes":"8","coin":"2121"},{"minunes":"9","coin":"2393"},{"minunes":"10","coin":"3088"},{"minunes":"11","coin":"3272"},{"minunes":"12","coin":"3906"},{"minunes":"13","coin":"4134"},{"minunes":"14","coin":"4639"},{"minunes":"15","coin":"5188"},{"minunes":"16","coin":"5731"},{"minunes":"17","coin":"5983"},{"minunes":"18","coin":"6192"},{"minunes":"19","coin":"6596"},{"minunes":"20","coin":"6992"},{"minunes":"21","coin":"7363"},{"minunes":"22","coin":"7618"},{"minunes":"23","coin":"8327"},{"minunes":"24","coin":"8736"},{"minunes":"25","coin":"9633"},{"minunes":"26","coin":"10010"},{"minunes":"27","coin":"10149"},{"minunes":"28","coin":"10459"},{"minunes":"29","coin":"10684"},{"minunes":"30","coin":"10735"}]};',
+                p2:'',pM2:'EXAMPLE----------||var userCoin={"status":0,"msg":[{"minunes":"0","coin":"500"},{"minunes":"1","coin":"500"},{"minunes":"2","coin":"646"},{"minunes":"3","coin":"967"},{"minunes":"4","coin":"1593"},{"minunes":"5","coin":"1984"},{"minunes":"6","coin":"2535"},{"minunes":"7","coin":"2787"},{"minunes":"8","coin":"3104"},{"minunes":"9","coin":"3800"},{"minunes":"10","coin":"5053"},{"minunes":"11","coin":"5373"},{"minunes":"12","coin":"5782"},{"minunes":"13","coin":"6021"},{"minunes":"14","coin":"6741"},{"minunes":"15","coin":"6895"},{"minunes":"16","coin":"7703"},{"minunes":"17","coin":"7971"},{"minunes":"18","coin":"8188"},{"minunes":"19","coin":"8849"},{"minunes":"20","coin":"9640"},{"minunes":"21","coin":"10530"},{"minunes":"22","coin":"10831"},{"minunes":"23","coin":"11683"},{"minunes":"24","coin":"11827"},{"minunes":"25","coin":"13840"},{"minunes":"26","coin":"14920"},{"minunes":"27","coin":"15043"},{"minunes":"28","coin":"15663"},{"minunes":"29","coin":"16019"},{"minunes":"30","coin":"16065"}]};',
+                p3:'',pM3:'EXAMPLE----------||var userCoin={"status":0,"msg":[{"minunes":"0","coin":"500"},{"minunes":"1","coin":"500"},{"minunes":"2","coin":"1122"},{"minunes":"3","coin":"1644"},{"minunes":"4","coin":"1868"},{"minunes":"5","coin":"2076"},{"minunes":"6","coin":"2411"},{"minunes":"7","coin":"2633"},{"minunes":"8","coin":"2955"},{"minunes":"9","coin":"3229"},{"minunes":"10","coin":"3551"},{"minunes":"11","coin":"3912"},{"minunes":"12","coin":"4446"},{"minunes":"13","coin":"4854"},{"minunes":"14","coin":"5107"},{"minunes":"15","coin":"5283"},{"minunes":"16","coin":"5817"},{"minunes":"17","coin":"6026"},{"minunes":"18","coin":"6457"},{"minunes":"19","coin":"7030"},{"minunes":"20","coin":"7587"},{"minunes":"21","coin":"8032"},{"minunes":"22","coin":"8360"},{"minunes":"23","coin":"8813"},{"minunes":"24","coin":"9187"},{"minunes":"25","coin":"9528"},{"minunes":"26","coin":"9800"},{"minunes":"27","coin":"10323"},{"minunes":"28","coin":"10834"},{"minunes":"29","coin":"10958"},{"minunes":"30","coin":"11004"}]};',
+                p4:'',pM4:'EXAMPLE----------||var userCoin={"status":0,"msg":[{"minunes":"0","coin":"500"},{"minunes":"1","coin":"500"},{"minunes":"2","coin":"595"},{"minunes":"3","coin":"853"},{"minunes":"4","coin":"1070"},{"minunes":"5","coin":"1305"},{"minunes":"6","coin":"1616"},{"minunes":"7","coin":"1831"},{"minunes":"8","coin":"2006"},{"minunes":"9","coin":"2223"},{"minunes":"10","coin":"2477"},{"minunes":"11","coin":"3033"},{"minunes":"12","coin":"3277"},{"minunes":"13","coin":"3442"},{"minunes":"14","coin":"4296"},{"minunes":"15","coin":"4785"},{"minunes":"16","coin":"5084"},{"minunes":"17","coin":"5319"},{"minunes":"18","coin":"5820"},{"minunes":"19","coin":"6229"},{"minunes":"20","coin":"6470"},{"minunes":"21","coin":"6964"},{"minunes":"22","coin":"7468"},{"minunes":"23","coin":"7680"},{"minunes":"24","coin":"7803"},{"minunes":"25","coin":"7949"},{"minunes":"26","coin":"8437"},{"minunes":"27","coin":"9311"},{"minunes":"28","coin":"9580"},{"minunes":"29","coin":"9704"},{"minunes":"30","coin":"9751"}]};',
+                p0JSON:{},
+                p1JSON:{},
+                p2JSON:{},
+                p3JSON:{},
+                p4JSON:{},
+            }
         },
         beforeCreate(){
         },
@@ -84,43 +109,63 @@
 //                    console.log(value);
                     for(var i = 0;i<this.res.participants.length;i++){
                         if(this.res.participants[i].currentAccountId == this.myID){
-                            this.myTeam = this.res.participants[i].teamId;
+                            this.myTeamID = this.res.participants[i].teamId;
                             this.res['myID'] = value;
-                            this.res['myteam'] = this.myTeam;
-
+                            this.res['myteam'] = this.myTeamID;
                         }
                     }
-//                    console.log(JSON.stringify(this.res));
-                    this.$Modal.confirm({
-                        title: '下载的比赛场次为:' + this.res.gameId ,
-                        content: '<p>是否下载由'+ this.myID + '为主角的JSON?</p>',
-                        loading: true,
-                        onOk: () => {
-                            let content =  new Blob([JSON.stringify(this.res)]);
-                            let  urlObject = window.URL || window.webkitURL || window;
-                            let url = urlObject.createObjectURL(content);
-                            let el = document.createElement('a');
-                            el.href = url;
-                            el.download =this.res.gameId +".json";
-                            el.click();
-                            urlObject.revokeObjectURL(url);
-                            this.$Modal.remove();
-                            this.$Message.info('开始下载');
-                         }
-                    });
+                    var j = 0;
+                    for(var i = 0;i<10;i++){
 
-//
-//                    let content =  new Blob([JSON.stringify(this.res)]);
-//                    let  urlObject = window.URL || window.webkitURL || window;
-//                    let url = urlObject.createObjectURL(content);
-//                    let el = document.createElement('a');
-//                    el.href = url;
-//                    el.download =this.res.gameId +".json";
-//                    el.click();
-//                    urlObject.revokeObjectURL(url);
+                        if(this.res.participants[i].teamId == this.myTeamID) {
+                            this.myTeam[j] = this.res.participants[i];
+                            j++;
+                        }
+                    }
+
+                    this.next2 = true;
+                    this.person.p0 = this.myTeam[0].currentAccountId;
+                    this.person.p1 = this.myTeam[1].currentAccountId;
+                    this.person.p2 = this.myTeam[2].currentAccountId;
+                    this.person.p3 = this.myTeam[3].currentAccountId;
+                    this.person.p4 = this.myTeam[4].currentAccountId;
+
+
+//                    console.log(JSON.stringify(this.res));
+//                    this.$Modal.confirm({
+//                        title: '下载的比赛场次为:' + this.res.gameId ,
+//                        content: '<p>是否下载由'+ this.myID + '为主角的JSON?</p>',
+//                        loading: true,
+//                        onOk: () => {
+//                            let content =  new Blob([JSON.stringify(this.res)]);
+//                            let  urlObject = window.URL || window.webkitURL || window;
+//                            let url = urlObject.createObjectURL(content);
+//                            let el = document.createElement('a');
+//                            el.href = url;
+//                            el.download =this.res.gameId +".json";
+//                            el.click();
+//                            urlObject.revokeObjectURL(url);
+//                            this.$Modal.remove();
+//                            this.$Message.info('开始下载');
+//                         }
+//                    });
+
 
                 }
 
+            },
+            getJson(){
+                if(this.person.pM0.indexOf('{') < 0){
+                    return;
+                }
+                this.person.p0JSON = JSON.parse(this.person.pM0.substring(this.person.pM0.indexOf('{'),this.person.pM0.lastIndexOf('}')+1));
+                this.person.p1JSON = JSON.parse(this.person.pM1.substring(this.person.pM1.indexOf('{'),this.person.pM1.lastIndexOf('}')+1));
+                this.person.p2JSON = JSON.parse(this.person.pM2.substring(this.person.pM2.indexOf('{'),this.person.pM2.lastIndexOf('}')+1));
+                this.person.p3JSON = JSON.parse(this.person.pM3.substring(this.person.pM3.indexOf('{'),this.person.pM3.lastIndexOf('}')+1));
+                this.person.p4JSON = JSON.parse(this.person.pM4.substring(this.person.pM4.indexOf('{'),this.person.pM4.lastIndexOf('}')+1));
+
+                this.res['time'] = this.person.p0JSON.msg.length;
+                console.log(this.person.p2JSON);
             }
         }
     });

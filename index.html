@@ -74,29 +74,31 @@
                                                         <span style="margin-left: 10px" class="itemListBtn">出装</span>
                                                             <div slot="content">
                                                                 <span class="item" v-show="item.stats.item0 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item0 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item1 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item1 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item2 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item2 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item3 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item3 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item4 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item4 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item5 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                   <img :src="'item/'+ item.stats.item5 + '.png'">
                                                                 </span>
                                                                 <span class="item" v-show="item.stats.item6 != '0'">
-                                                                    <img src="item/3006.png">
+                                                                    <img :src="'item/'+ item.stats.item6 + '.png'">
                                                                 </span>
                                                             </div>
 
                                                         </poptip>
+                                                        <span style="margin-left: 3%;font-size: 16px">{{parseInt(item.stats.minionsKilled) + parseInt(item.stats.neutralMinionsKilled)}}刀</span>
+                                                        <span style="margin-left: 3%;font-size: 16px">{{(parseFloat(item.stats.goldEarned)/1000).toFixed(1)}}K</span>
                                                         </div>
 
 
@@ -121,8 +123,37 @@
                                                             </badge>
                                                         </span>
                                                         <span class="KDA">{{item.stats.kills}}/{{item.stats.deaths}}/{{item.stats.assists}}</span>
-                                                        <span style="width: 20px;height: 20px"></span>
+                                                        <poptip trigger="click">
+                                                            <span style="margin-left: 10px" class="itemListBtn">出装</span>
+                                                            <div slot="content">
+                                                                <span class="item" v-show="item.stats.item0 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item0 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item1 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item1 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item2 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item2 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item3 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item3 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item4 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item4 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item5 != '0'">
+                                                                   <img :src="'item/'+ item.stats.item5 + '.png'">
+                                                                </span>
+                                                                <span class="item" v-show="item.stats.item6 != '0'">
+                                                                    <img :src="'item/'+ item.stats.item6 + '.png'">
+                                                                </span>
+                                                            </div>
+
+                                                        </poptip>
+                                                        <span style="margin-left: 3%;font-size: 16px">{{parseInt(item.stats.minionsKilled) + parseInt(item.stats.neutralMinionsKilled)}}刀</span>
+                                                        <span style="margin-left: 3%;font-size: 16px">{{(parseFloat(item.stats.goldEarned)/1000).toFixed(1)}}K</span>
                                                     </div>
+
 
                                                 </td>
                                             </tr>
@@ -201,7 +232,7 @@
         top:25px
     }
     .KDA{
-        margin-left: 8px;
+        margin-left: 4%;
         font-size: 16px;
         margin-top: 2px;
     }

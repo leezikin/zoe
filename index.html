@@ -171,7 +171,7 @@
                             <div id="kills" style="margin:30px auto;width: 250px;height: 250px;"></div>
                         </i-col>
                         <i-col span="24" style="width: 300px;height: 400px;">
-                            <div id="money" style="margin:30px auto;width: 280px;height: 300px;"></div>
+                            <div id="money" style="margin:30px auto;width: 280px;height: 280px;"></div>
                         </i-col>
                     </row>
 
@@ -424,10 +424,9 @@
 //                        "<img style='width: 25px;height: 25px' src='./hero/{a3}.png'> : {c3}<br>" +
 //                        "<img style='width: 25px;height: 25px' src='./hero/{a4}.png'> : {c4}<br>"
                         formatter:(a)=>{
-                         console.log(a);
                          var res = '';
                          for(var i = 0;i < a.length;i++){
-                             res += "<img style='width: 25px;height: 25px' src='./hero/" + a[i].seriesName + ".png'>:" + a[i].data + "<br>";
+                             res += "<avatar style='padding-left:7px;background:"+ a[i].color + "' src='./hero/" + a[i].seriesName + ".png'></avatar>" + "<img style='width: 25px;height: 25px' src='./hero/" + a[i].seriesName + ".png'>:" + a[i].data + "<br>";
                          }
                          return res;
                         }
@@ -438,7 +437,7 @@
 //                        data:['122','p2','p3','p4','p5']
 //                    },
                     grid: {
-                        top: '25%',
+                        top: '20%',
                         left: '3%',
                         right: '4%',
                         bottom: '3%',

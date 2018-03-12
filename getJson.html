@@ -24,11 +24,11 @@
 
         <br>
         <span style="margin-left:10%;" v-show="next2">取得userCoin</span>
-        <i-input v-model="person.pM0" :placeholder="person.p0" clearable style="width: 80%;margin-left:10%;" v-show="next2"></i-input>
-        <i-input v-model="person.pM1" :placeholder="person.p1" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
-        <i-input v-model="person.pM2" :placeholder="person.p2" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
-        <i-input v-model="person.pM3" :placeholder="person.p3" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
-        <i-input v-model="person.pM4" :placeholder="person.p4" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2"></i-input>
+        <i-input v-model="person.pM0" :placeholder="person.p0" clearable style="width: 80%;margin-left:10%;" v-show="next2" @on-focus="gotoCoinJson(0)"></i-input>
+        <i-input v-model="person.pM1" :placeholder="person.p1" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2" @on-focus="gotoCoinJson(1)"></i-input>
+        <i-input v-model="person.pM2" :placeholder="person.p2" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2" @on-focus="gotoCoinJson(2)"></i-input>
+        <i-input v-model="person.pM3" :placeholder="person.p3" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2" @on-focus="gotoCoinJson(3)"></i-input>
+        <i-input v-model="person.pM4" :placeholder="person.p4" clearable style="width: 80%;margin-left:10%;margin-top: 20px" v-show="next2" @on-focus="gotoCoinJson(4)"></i-input>
 
         <i-button v-show="next2" type="primary" @click="getJson" style="width: 30%;margin-left: 35%;margin-top: 30px">提交</i-button>
 
@@ -64,7 +64,11 @@
                 p2JSON:{},
                 p3JSON:{},
                 p4JSON:{},
-            }
+            },
+            fristGotoJson:[
+                true,true,true,true,true
+            ]
+
         },
         beforeCreate(){
         },
@@ -100,8 +104,12 @@
 
 
 
+
                 console.log(this.res);
                 this.next1 = true;
+                for(var i = 0;i<this.fristGotoJson.length;i++){
+                    this.fristGotoJson[i] = true;
+                }
 
             },
             selectID(value){
@@ -131,11 +139,14 @@
                     this.person.p4 = this.myTeam[4].currentAccountId;
 
 
-
-
-
                 }
 
+            },
+            gotoCoinJson(value){
+                if(this.fristGotoJson[value]){
+                    this.fristGotoJson[value] = false;
+                    window.open("http://apps.game.qq.com/lol/lolapi/BattleInfo.php?a0=userCoin&areaId=1&gameId=" + this.res.gameId+"&accId=" + this.myTeam[value].currentAccountId + "&r1=userCoin");
+                }
             },
             getJson(){
                 if(this.person.pM0.indexOf('{') < 0){

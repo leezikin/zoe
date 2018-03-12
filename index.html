@@ -185,7 +185,7 @@
                         <img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
                         <span @click="">@leezikin</span>
                         <div style="width: 40%;margin: auto;margin-top: 30px">
-                            佐伊就是全部。
+                            纪念一下。
                         </div>
                         <row type="flex" justify="center">
                             <i-col span="12" style="width: 200px;margin-top: 30px"><a href="https://github.com/leezikin/leezikin.github.io">GitHub</a></i-col>
@@ -418,15 +418,27 @@
                     },
                     tooltip: {
                         trigger: 'axis',
-
+//                        formatter: "<img style='width: 25px;height: 25px' src='./hero/{a0}.png'> : {c0}<br>" +
+//                        "<img style='width: 25px;height: 25px' src='./hero/{a1}.png'> : {c1}<br>" +
+//                        "<img style='width: 25px;height: 25px' src='./hero/{a2}.png'> : {c2}<br>" +
+//                        "<img style='width: 25px;height: 25px' src='./hero/{a3}.png'> : {c3}<br>" +
+//                        "<img style='width: 25px;height: 25px' src='./hero/{a4}.png'> : {c4}<br>"
+                        formatter:(a)=>{
+                         console.log(a);
+                         var res = '';
+                         for(var i = 0;i < a.length;i++){
+                             res += "<img style='width: 25px;height: 25px' src='./hero/" + a[i].seriesName + ".png'>:" + a[i].data + "<br>";
+                         }
+                         return res;
+                        }
 
                     },
 //                    legend: {
 //                        top: '10%',
-//                        data:['p1','p2','p3','p4','p5']
+//                        data:['122','p2','p3','p4','p5']
 //                    },
                     grid: {
-                        top: '40%',
+                        top: '25%',
                         left: '3%',
                         right: '4%',
                         bottom: '3%',
@@ -436,13 +448,14 @@
                     xAxis: {
                         type: 'category',
                         boundaryGap: false,
-                        data: this.matchDetail.timeList,
+                        data:this.matchDetail.timeList,
                     },
                     yAxis: {
                         type: 'value'
                     },
                     series:this.matchDetail.userCoinsChart,
                 };
+//                this.moneyOption.series[0].name = '<img src="/hero/122.png"/>'
 
                 this.moneyChart.setOption( this.moneyOption);
 

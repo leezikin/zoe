@@ -349,7 +349,8 @@
             getMatchDetails(gameId){
                 axios.get('./match/' + gameId + '.json').then((res)=> {
 //                    var res = ''
-                    this.matchDetail = JSON.parse(res);
+//                    this.matchDetail = JSON.parse(res);
+                    this.matchDetail = res;
                 this.detailModel = true;
                 for (var i = 0; i < 5; i++) {
                     this.teamB[i] = this.matchDetail.participants[i];

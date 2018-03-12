@@ -170,8 +170,11 @@
                         <i-col span="10" style="width: 250px;height: 250px;">
                             <div id="kills" style="margin:30px auto;width: 250px;height: 250px;"></div>
                         </i-col>
-                        <i-col span="24" style="width: 300px;height: 400px;">
+                        <i-col span="24" style="width: 280px;height: 300px;">
                             <div id="money" style="margin:30px auto;width: 280px;height: 280px;"></div>
+                        </i-col>
+                        <i-col span="24" style="width: 250px;height: 280px;">
+                            <div id="damage" style="margin:30px auto;width: 250px;height: 280px;"></div>
                         </i-col>
                     </row>
 
@@ -314,6 +317,9 @@
             myTeam:[],
             moneyChart:null,
             moneyOption:{},
+            damageChart:null,
+            damageOption:{},
+            heroIcon:[],
 
 
 
@@ -333,6 +339,7 @@
             this.$Loading.finish();
             this.killChart = echarts.init(document.getElementById('kills'),'roma');
             this.moneyChart = echarts.init(document.getElementById('money'),'roma');
+            this.damageChart = echarts.init(document.getElementById('damage'),'roma');
         },
         methods: {
             menuSelect(name){
@@ -354,13 +361,156 @@
                 this.myTeam = this.matchDetail.myteam == '100' ? this.teamB : this.teamP;
                 console.log(this.teamB);
 
-
-//  })
-//            .catch(function (error) {
-//
-//                });
                 console.log(this.matchDetail);
 
+                this.initKillChart();
+                this.initMoneyChart();
+
+
+                for(var i = 0;i<this.myTeam.length;i++){
+                    this.heroIcon[i] = './hero/' + this.myTeam[i].championId + '.png';
+                }
+
+                this.damageOption = {
+                    title: {
+                        text: '对英雄伤害',
+                        x: 'center'
+                    },
+                    legend: {
+                        top:'12%',
+                        width:'100%',
+                        data: ['物理','魔法','真实', ]
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis:  {
+                        type: 'value'
+                    },
+                    yAxis: {
+                        inverse:true,
+                        type: 'category',
+                        data: ['h0','h1','h2','h3','h4'],
+                        axisLabel: {
+                            interval: 0,
+                            formatter: (a,b)=> {
+//                                console.log(a)
+//                                console.log(b)
+                                return '{'+ a +'|   }';
+                            },
+
+                            rich: {
+                                h0:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[0]
+                                    }
+                                },
+                                h1:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[1]
+                                    }
+                                },
+                                h2:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[2]
+                                    }
+                                },
+                                h3:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[3]
+                                    }
+                                },
+                                h4:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[4]
+                                    }
+                                },
+                                h5:{
+                                    height: 20,
+                                        align: 'center',
+                                        backgroundColor: {
+                                        image: this.heroIcon[5]
+                                    }
+                                },
+
+                            }
+                        }
+                    },
+                series: [
+                        {
+                            name: '物理',
+                            type: 'bar',
+
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+
+                        },
+                        {
+                            name: '魔法',
+                            type: 'bar',
+
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+
+                        },
+                        {
+                            name: '真实',
+                            type: 'bar',
+
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                        },
+                    ]
+                };
+                var physicalDamageDealtToChampions = [];
+                var magicDamageDealtToChampions = [];
+                var trueDamageDealtToChampions = [];
+
+
+                for(var temp = 0;temp <5;temp++){
+                    console.log()
+                    var obj = this.myTeam[temp].stats;
+                    physicalDamageDealtToChampions[temp] = obj.physicalDamageDealtToChampions;
+                    magicDamageDealtToChampions[temp] = obj.magicDamageDealtToChampions;
+                    trueDamageDealtToChampions[temp] = obj.trueDamageDealtToChampions
+
+                }
+
+                this.damageOption.series[0]['data'] = physicalDamageDealtToChampions;
+                this.damageOption.series[1]['data'] = magicDamageDealtToChampions;
+                this.damageOption.series[2]['data'] = trueDamageDealtToChampions;
+
+                this.damageChart.setOption( this.damageOption);
+
+
+
+            },
+            initKillChart(){
                 this.killOption = {
                     title: {
                         text: '击杀占比',
@@ -404,12 +554,8 @@
                 }
 
                 this.killChart.setOption( this.killOption);
-
-//                for(var i = 0;i<this.matchDetail.userCoinsChart.length;i++){
-//                    this.matchDetail.userCoinsChart[i].name = '<img style=\'width: 30px;height: 30px\' src=\'./hero/' + this.matchDetail.userCoinsChart[i].name + '.png\'></img>';
-//                }
-
-
+            },
+            initMoneyChart(){
                 this.moneyOption = {
                     title: {
                         text: '经济',
@@ -424,42 +570,40 @@
 //                        "<img style='width: 25px;height: 25px' src='./hero/{a3}.png'> : {c3}<br>" +
 //                        "<img style='width: 25px;height: 25px' src='./hero/{a4}.png'> : {c4}<br>"
                         formatter:(a)=>{
-                         var res = '';
-                         for(var i = 0;i < a.length;i++){
-                             res += "<avatar style='padding-left:7px;background:"+ a[i].color + "' src='./hero/" + a[i].seriesName + ".png'></avatar>" + "<img style='width: 25px;height: 25px' src='./hero/" + a[i].seriesName + ".png'>:" + a[i].data + "<br>";
-                         }
-                         return res;
-                        }
+                        var res = '';
+                for(var i = 0;i < a.length;i++){
+                    res += "<avatar style='padding-left:7px;background:"+ a[i].color + "' src='./hero/" + a[i].seriesName + ".png'></avatar>" + "<img style='width: 25px;height: 25px' src='./hero/" + a[i].seriesName + ".png'>:" + a[i].data + "<br>";
+                }
+                return res;
+            }
 
-                    },
+            },
 //                    legend: {
 //                        top: '10%',
 //                        data:['122','p2','p3','p4','p5']
 //                    },
-                    grid: {
-                        top: '20%',
+                grid: {
+                    top: '20%',
                         left: '3%',
                         right: '4%',
                         bottom: '3%',
                         containLabel: true
-                    },
+                },
 
-                    xAxis: {
-                        type: 'category',
+                xAxis: {
+                    type: 'category',
                         boundaryGap: false,
                         data:this.matchDetail.timeList,
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series:this.matchDetail.userCoinsChart,
-                };
-//                this.moneyOption.series[0].name = '<img src="/hero/122.png"/>'
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series:this.matchDetail.userCoinsChart,
+            };
 
                 this.moneyChart.setOption( this.moneyOption);
 
             },
-
         }
     });
 

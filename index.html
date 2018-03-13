@@ -190,7 +190,7 @@
                         </div>
                         <row type="flex" justify="center">
                             <i-col span="12" style="width: 200px;margin-top: 30px"><a href="https://github.com/leezikin/zoe">GitHub</a></i-col>
-                            <i-col span="12" style="width: 200px;margin-top: 30px"><a href="mailto:admin@maoa-l.xyz">Email</a></i-col>
+                            <i-col span="12" style="width: 200px;margin-top: 30px"><a @click="showEmail">{{email}}</a></i-col>
                         </row>
                         <div style="width: 85%;height: 1px;background-color: #666;margin:30px auto 30px"></div>
                         <timeline style="width: 70%;margin:auto;">
@@ -391,6 +391,7 @@
             damageChart:null,
             damageOption:{},
             heroIcon:[],
+            email:'Email',
 
 
 
@@ -676,6 +677,15 @@
                 this.damageOption.series[2]['data'] = trueDamageDealtToChampions;
 
                 this.damageChart.setOption( this.damageOption);
+
+
+            },
+            showEmail(){
+                if(this.email == 'admin@maoa-l.xyz'){
+                    this.email = 'Email';
+                    return ;
+                }
+                this.email = 'admin@maoa-l.xyz';
 
 
             }
